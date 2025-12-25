@@ -33,5 +33,3 @@ repos:
     hooks:
       - id: shellcheck
         files: \.sh$
-
-
