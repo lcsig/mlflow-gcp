@@ -38,17 +38,16 @@ for i in {1..30}; do
     fi
     sleep 2
 done
-if [ $i -eq 30 ]; then
+if [ "$i" -eq 30 ]; then
     echo "[!] MLFlow server not reachable yet; starting auth proxy anyway"
 fi
 
 # Start authentication proxy
 echo "[+] Starting authentication proxy on port ${PORT:-8080}"
 exec gunicorn \
-    --bind 0.0.0.0:${PORT:-8080} \
+    --bind 0.0.0.0:"${PORT:-8080}" \
     --workers 2 \
     --timeout 300 \
     --access-logfile - \
     --error-logfile - \
     auth_wrapper:app
-

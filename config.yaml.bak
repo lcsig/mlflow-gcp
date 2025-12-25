@@ -5,7 +5,7 @@
 gcp:
   project_id: "your-gcp-project-id"
   region: "us-central1"
-  
+
 # Cloud Run Settings
 cloud_run:
   service_name: "mlflow-server"
@@ -14,7 +14,7 @@ cloud_run:
   cpu_limit: "2"        # Maximum 2 CPUs per instance
   memory_limit: "2Gi"   # 2GB RAM per instance
   container_port: 8080
-  
+
 # Cloud SQL Settings
 cloud_sql:
   instance_name: "mlflow-db"
@@ -23,18 +23,18 @@ cloud_sql:
   database_name: "mlflow"
   database_user: "mlflow"
   database_password: "CHANGE_THIS_PASSWORD"  # REQUIRED: Set a secure password
-  
-# Cloud Storage Settings  
+
+# Cloud Storage Settings
 storage:
   bucket_name: "your-unique-mlflow-artifacts-bucket"  # REQUIRED: Must be globally unique
   location: "us-central1"
   lifecycle_days: 180    # Delete artifacts older than 18 days
-  
+
 # MLFlow Authentication
 mlflow:
   username: "admin"
   password: "CHANGE_THIS_PASSWORD"  # REQUIRED: Set a secure password
-  
+
 # Docker Settings
 docker:
   image_name: "mlflow"

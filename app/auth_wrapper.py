@@ -6,11 +6,12 @@ Provides basic HTTP authentication for MLFlow server
 
 import os
 import sys
-from flask import Flask, request, Response
-from werkzeug.security import check_password_hash, generate_password_hash
-from werkzeug.middleware.proxy_fix import ProxyFix
-import requests
 from functools import wraps
+
+import requests
+from flask import Flask, Response, request
+from werkzeug.middleware.proxy_fix import ProxyFix
+from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
@@ -50,9 +51,7 @@ def requires_auth(f):
     return decorated
 
 
-@app.route(
-    "/", defaults={"path": ""}, methods=["GET", "POST", "PUT", "DELETE", "PATCH"]
-)
+@app.route("/", defaults={"path": ""}, methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
 @app.route("/<path:path>", methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
 @requires_auth
 def proxy(path):

@@ -4,9 +4,10 @@ MLFlow GCP Destroy Script
 Removes all MLFlow infrastructure from GCP
 """
 
-import sys
-import yaml
 import subprocess
+import sys
+
+import yaml
 from google.cloud import storage
 
 

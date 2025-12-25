@@ -24,7 +24,7 @@ wheels/
 *.egg
 
 # Configuration
-config.yaml   
+config.yaml
 
 # IDE
 .vscode/
@@ -44,4 +44,3 @@ Thumbs.db
 secrets/
 credentials.json
 service-account-key.json
-

@@ -5,17 +5,17 @@ Deploys MLFlow to Cloud Run with Cloud SQL and Cloud Storage
 """
 
 import os
+import subprocess
 import sys
 import time
-import yaml
-import subprocess
 from typing import Dict
-from google.cloud import run_v2
-from google.cloud import storage
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
+
+import yaml
 from google.api_core import exceptions
 from google.auth import default
+from google.cloud import run_v2, storage
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 
 
 class MLFlowDeployer:
@@ -114,9 +114,7 @@ class MLFlowDeployer:
             except subprocess.CalledProcessError as e:
                 # Don't hard-fail here; Cloud Run deploy will surface any remaining permission issues.
                 msg = (e.stderr or e.stdout or str(e)).strip()
-                print(
-                    f"  [!] Warning: Could not grant {role} to {service_account_email}: {msg}"
-                )
+                print(f"  [!] Warning: Could not grant {role} to {service_account_email}: {msg}")
 
     def _ensure_bucket_iam(self, bucket_name: str, service_account_email: str):
         """Ensure the Cloud Run service account can read/write artifacts in the bucket."""
@@ -137,9 +135,7 @@ class MLFlowDeployer:
                 capture_output=True,
                 text=True,
             )
-            print(
-                f"  [+] Ensured roles/storage.objectAdmin on bucket gs://{bucket_name}"
-            )
+            print(f"  [+] Ensured roles/storage.objectAdmin on bucket gs://{bucket_name}")
         except subprocess.CalledProcessError as e:
             msg = (e.stderr or e.stdout or str(e)).strip()
             print(f"  [!] Warning: Could not grant bucket access: {msg}")
@@ -264,9 +260,7 @@ class MLFlowDeployer:
                 return False
             raise
 
-    def _wait_for_sql_instance_ready(
-        self, instance_name: str, timeout_seconds: int = 1200
-    ):
+    def _wait_for_sql_instance_ready(self, instance_name: str, timeout_seconds: int = 1200):
         """Wait until the SQL instance is RUNNABLE (or until timeout)."""
         deadline = time.time() + timeout_seconds
         last_state = None
@@ -353,9 +347,7 @@ class MLFlowDeployer:
         subprocess.run(["docker", "build", "-t", gcr_image, "app/"], check=True)
 
         print("[+] Configuring Docker for GCR")
-        subprocess.run(
-            ["gcloud", "auth", "configure-docker", "gcr.io", "--quiet"], check=True
-        )
+        subprocess.run(["gcloud", "auth", "configure-docker", "gcr.io", "--quiet"], check=True)
 
         print("[+] Pushing image to GCR")
         subprocess.run(["docker", "push", gcr_image], check=True)
@@ -454,26 +446,20 @@ class MLFlowDeployer:
 
         # Ensure Cloud Run runtime service account has required permissions
         service_account = self._get_cloud_run_service_account()
-        print(
-            f"[+] Ensuring IAM permissions for Cloud Run service account: {service_account}"
-        )
+        print(f"[+] Ensuring IAM permissions for Cloud Run service account: {service_account}")
         self._ensure_project_iam_roles(
             service_account,
             roles=[
                 "roles/cloudsql.client",
             ],
         )
-        self._ensure_bucket_iam(
-            bucket_name=bucket_name, service_account_email=service_account
-        )
+        self._ensure_bucket_iam(bucket_name=bucket_name, service_account_email=service_account)
 
         # Build and push Docker image
         image_uri = self.build_and_push_image()
 
         # Deploy Cloud Run
-        service_url = self.deploy_cloud_run(
-            image_uri, bucket_name, sql_info["connection_name"]
-        )
+        service_url = self.deploy_cloud_run(image_uri, bucket_name, sql_info["connection_name"])
 
         print("\n" + "=" * 60)
         print("Deployment Complete!")
@@ -484,9 +470,7 @@ class MLFlowDeployer:
         print("\nTracking URI:")
         mlflow_user = self.config["mlflow"]["username"]
         mlflow_pass = self.config["mlflow"]["password"]
-        tracking_uri = (
-            f"https://{mlflow_user}:{mlflow_pass}@{service_url.replace('https://', '')}"
-        )
+        tracking_uri = f"https://{mlflow_user}:{mlflow_pass}@{service_url.replace('https://', '')}"
         print(f"  {tracking_uri}")
         print("\nSet in your code:")
         print(f'  export MLFLOW_TRACKING_URI="{tracking_uri}"')

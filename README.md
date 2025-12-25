@@ -26,6 +26,21 @@ Client → Cloud Run (MLFlow + Auth) → Cloud SQL (PostgreSQL)
 - `docker` installed
 - Python 3.10+ with pip
 
+## Pre-commit (recommended)
+
+This repo includes a pre-commit setup to:
+- auto-format and lint Python (`ruff`, `ruff-format`)
+- validate YAML and catch common git issues
+- detect secrets/keys (helps prevent accidentally committing `config.yaml` passwords)
+
+Install and enable it:
+
+```bash
+pip install pre-commit
+pre-commit install
+pre-commit run --all-files
+```
+
 ## Quick Start
 
 ### Step 1: Setup
@@ -51,14 +66,14 @@ gcp:
   project_id: "your-gcp-project-id"
 
 cloud_sql:
-  database_password: "your-secure-db-password"
+  database_password: "your-secure-db-password"  # pragma: allowlist secret
 
 storage:
   bucket_name: "your-unique-bucket-name"  # Must be globally unique
 
 mlflow:
   username: "admin"
-  password: "your-secure-password"
+  password: "your-secure-password"  # pragma: allowlist secret
 ```
 
 **Important:** Change all passwords and use a unique bucket name.
@@ -98,7 +113,7 @@ The script will output your MLFlow URL and tracking URI.
 
 ### Access Web UI
 
-Visit the URL from deployment output in your browser. You'll be prompted for username and password.
+Visit the URL from deployment output in your browser. You'll be prompted for username and password. <!-- pragma: allowlist secret -->
 
 ### Python Code
 
@@ -107,7 +122,7 @@ import mlflow
 import os
 
 # Set tracking URI (from deployment output)
-os.environ['MLFLOW_TRACKING_URI'] = 'https://admin:password@your-url'
+os.environ["MLFLOW_TRACKING_URI"] = "https://admin:YOUR_TOKEN@your-url"  # pragma: allowlist secret
 
 # Use MLFlow
 with mlflow.start_run():
@@ -130,7 +145,7 @@ cp config.yaml.bak config.yaml
 gcp:
   project_id: "your-project"
   region: "us-central1"
-  
+
 # Cloud Run Settings
 cloud_run:
   service_name: "mlflow-server"
@@ -138,7 +153,7 @@ cloud_run:
   min_instances: 0          # Scale to zero when idle
   cpu_limit: "2"            # CPUs per instance
   memory_limit: "4Gi"       # Memory per instance
-  
+
 # Cloud SQL Settings
 cloud_sql:
   instance_name: "mlflow-db"
@@ -146,19 +161,19 @@ cloud_sql:
   tier: "db-f1-micro"       # Instance size
   database_name: "mlflow"
   database_user: "mlflow"
-  database_password: "CHANGE_ME"
-  
+  database_password: "CHANGE_ME"  # pragma: allowlist secret
+
 # Cloud Storage Settings
 storage:
   bucket_name: "your-unique-bucket-name"
   location: "us-central1"
   lifecycle_days: 90        # Delete old artifacts after N days
-  
+
 # MLFlow Authentication
 mlflow:
   username: "admin"
-  password: "CHANGE_ME"
-  
+  password: "CHANGE_ME"  # pragma: allowlist secret
+
 # Docker Settings
 docker:
   image_name: "mlflow"

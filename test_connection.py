@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Test MLFlow server connection and authentication"""
 
-import sys
-import yaml
-import requests
 import subprocess
+import sys
 from getpass import getpass
+
+import requests
+import yaml
 
 
 def test_connection(config_path: str = "config.yaml"):
