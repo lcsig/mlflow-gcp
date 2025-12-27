@@ -19,8 +19,8 @@ fi
 echo "[+] Starting MLFlow server on port 5000"
 mlflow server \
     --backend-store-uri "$MLFLOW_BACKEND_STORE_URI" \
-    --default-artifact-root "$MLFLOW_DEFAULT_ARTIFACT_ROOT" \
     --serve-artifacts \
+    --artifacts-destination "$MLFLOW_DEFAULT_ARTIFACT_ROOT" \
     --host 0.0.0.0 \
     --port 5000 \
     --gunicorn-opts "--timeout 300 --workers 2" &
