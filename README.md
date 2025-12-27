@@ -14,6 +14,8 @@ Deploy MLFlow 3.6.0 with authentication on Google Cloud Run, backed by Cloud SQL
 
 ## Architecture
 
+![Architecture](./arch.svg)
+
 ```
 Client → Cloud Run (MLFlow + Auth) → Cloud SQL (PostgreSQL)
                                    → Cloud Storage (Artifacts)

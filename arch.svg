@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 500">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#5f6368" />
+    </marker>
+    <linearGradient id="cloudRunGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e8f0fe;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d2e3fc;stop-opacity:1" />
+    </linearGradient>
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+      <feOffset dx="2" dy="2" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.2"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="850" height="500" fill="#ffffff" />
+
+  <rect x="180" y="40" width="650" height="440" rx="10" fill="none" stroke="#4285f4" stroke-width="2" stroke-dasharray="5,5" />
+  <text x="200" y="70" font-family="Roboto, Arial, sans-serif" font-size="14" fill="#4285f4" font-weight="bold">Google Cloud Project</text>
+
+  <g transform="translate(20, 200)">
+    <circle cx="50" cy="30" r="25" fill="#fbbc04" stroke="#e37400" stroke-width="2" />
+    <path d="M50 15 a15 15 0 0 1 0 30 a15 15 0 0 1 0 -30" fill="#fff" opacity="0.3"/>
+    <text x="50" y="75" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">Data Scientist / Client</text>
+    <text x="50" y="90" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="10" fill="#555">Python SDK / Browser</text>
+  </g>
+
+  <g transform="translate(280, 150)">
+    <rect x="0" y="0" width="200" height="140" rx="8" fill="url(#cloudRunGrad)" stroke="#1967d2" stroke-width="2" filter="url(#dropShadow)" />
+    <text x="100" y="30" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="14" font-weight="bold" fill="#1967d2">Cloud Run Service</text>
+
+    <rect x="20" y="50" width="160" height="30" rx="4" fill="#fff" stroke="#1967d2" stroke-width="1" />
+    <text x="100" y="70" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="11" fill="#333">Auth Wrapper (Basic Auth)</text>
+
+    <rect x="20" y="90" width="160" height="30" rx="4" fill="#fff" stroke="#1967d2" stroke-width="1" />
+    <text x="100" y="110" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="11" fill="#333">MLFlow Server 3.6.0</text>
+  </g>
+
+  <g transform="translate(600, 80)">
+    <path d="M0 15 A35 10 0 1 1 70 15 A35 10 0 1 1 0 15 Z" fill="#fff" stroke="#4285f4" stroke-width="2" />
+    <path d="M0 15 L0 75 A35 10 0 0 0 70 75 L70 15" fill="#e8f0fe" stroke="#4285f4" stroke-width="2" />
+    <path d="M0 15 A35 10 0 1 0 70 15 A35 10 0 1 0 0 15 Z" fill="#e8f0fe" stroke="#4285f4" stroke-width="2" />
+    <text x="35" y="105" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">Cloud SQL</text>
+    <text x="35" y="120" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="10" fill="#555">PostgreSQL</text>
+    <text x="35" y="135" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="9" fill="#777">(Metadata Store)</text>
+  </g>
+
+  <g transform="translate(600, 300)">
+    <path d="M0 10 L15 60 L65 60 L80 10 Z" fill="#f1f3f4" stroke="#5f6368" stroke-width="2" />
+    <path d="M0 10 Q40 -5 80 10" fill="none" stroke="#5f6368" stroke-width="2" />
+    <text x="40" y="85" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">Cloud Storage</text>
+    <text x="40" y="100" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="10" fill="#555">GCS Bucket</text>
+    <text x="40" y="115" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="9" fill="#777">(Artifact Store)</text>
+  </g>
+
+  <g transform="translate(280, 400)">
+     <rect x="0" y="0" width="200" height="40" rx="5" fill="#fff3e0" stroke="#e37400" stroke-width="1" stroke-dasharray="4,2"/>
+     <text x="100" y="25" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="11" fill="#e37400">Artifact Registry (Docker Image)</text>
+  </g>
+
+  <line x1="80" y1="230" x2="270" y2="220" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)" />
+  <text x="180" y="215" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="10" fill="#333" transform="rotate(-3 180 215)">HTTPS / Basic Auth</text>
+
+  <path d="M480 200 C 520 200, 520 120, 590 120" fill="none" stroke="#4285f4" stroke-width="2" marker-end="url(#arrowhead)" />
+  <text x="540" y="150" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="10" fill="#1967d2" font-weight="bold">SQL Connection</text>
+  <text x="540" y="162" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="9" fill="#555">Params / Metrics</text>
+
+  <path d="M480 240 C 520 240, 520 330, 590 330" fill="none" stroke="#5f6368" stroke-width="2" marker-end="url(#arrowhead)" />
+  <text x="540" y="300" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="10" fill="#5f6368" font-weight="bold">GCS API</text>
+  <text x="540" y="312" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="9" fill="#555">Models / Plots</text>
+
+  <line x1="380" y1="400" x2="380" y2="300" stroke="#e37400" stroke-width="1" stroke-dasharray="4,4" marker-end="url(#arrowhead)" />
+  <text x="390" y="360" text-anchor="start" font-family="Roboto, Arial, sans-serif" font-size="9" fill="#e37400">Pull on Start</text>
+
+</svg>
