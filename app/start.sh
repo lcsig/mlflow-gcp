@@ -20,6 +20,7 @@ echo "[+] Starting MLFlow server on port 5000"
 mlflow server \
     --backend-store-uri "$MLFLOW_BACKEND_STORE_URI" \
     --serve-artifacts \
+    --default-artifact-root "mlflow-artifacts:/" \
     --artifacts-destination "$MLFLOW_DEFAULT_ARTIFACT_ROOT" \
     --host 0.0.0.0 \
     --port 5000 \

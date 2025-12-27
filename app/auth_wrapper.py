@@ -32,7 +32,7 @@ def check_auth(username, password):
 def authenticate():
     """Send 401 response for authentication"""
     return Response(
-        "Authentication required\n" "Please provide valid credentials",
+        "Authentication required\nPlease provide valid credentials",
         401,
         {"WWW-Authenticate": 'Basic realm="MLFlow Login"'},
     )
@@ -62,14 +62,14 @@ def proxy(path):
     if request.query_string:
         url += f"?{request.query_string.decode()}"
 
-    # Prepare headers (exclude hop-by-hop headers)
+    # Prepare headers (exclude hop-by-hop headers only)
     headers = {
         key: value
         for key, value in request.headers
         if key.lower() not in ["host", "connection", "authorization"]
     }
 
-    # Forward request to MLFlow
+    # Forward request to MLFlow with streaming
     try:
         resp = requests.request(
             method=request.method,
@@ -79,22 +79,23 @@ def proxy(path):
             cookies=request.cookies,
             allow_redirects=False,
             timeout=300,
+            stream=True,  # Enable streaming for artifact proxy
         )
 
-        # Build response
-        excluded_headers = [
-            "content-encoding",
-            "content-length",
-            "transfer-encoding",
-            "connection",
-        ]
-        response_headers = [
-            (name, value)
-            for name, value in resp.raw.headers.items()
+        # Only exclude hop-by-hop headers, preserve content headers for streaming
+        excluded_headers = {"connection", "keep-alive", "transfer-encoding"}
+        response_headers = {
+            name: value
+            for name, value in resp.headers.items()
             if name.lower() not in excluded_headers
-        ]
+        }
 
-        return Response(resp.content, resp.status_code, response_headers)
+        # Stream the response instead of buffering
+        return Response(
+            resp.iter_content(chunk_size=8192),
+            status=resp.status_code,
+            headers=response_headers,
+        )
     except Exception as e:
         print(f"[!] Proxy error: {e}", file=sys.stderr)
         return Response(f"Error connecting to MLFlow: {str(e)}", 502)
